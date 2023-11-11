@@ -45,16 +45,17 @@ def arguments():
     parser.add_argument('-d', '--directory', type=str, default=False,
                         help='Specify the directory you want to scan, the argument get one directory and scans all ELF '
                              'files in it.')
-    parser.add_argument('-e', '--external', type=str_to_bool, nargs='?', default=False,
-                        help='Specify whether you want to add external checks (False by default).')
-    parser.add_argument('-m', '--show_missing', type=str_to_bool, nargs='?', default=False,
+    parser.add_argument('-e', '--external', default=False,
+                        help='Specify whether you want to add external checks (False by default).', action='store_true')
+    parser.add_argument('-m', '--show_missing', default=False,
                         help='Show only the files that are missing security hardening mechanisms and need extra '
-                             'attention.')
-    parser.add_argument('-s', '--system', type=str_to_bool, nargs='?', default=False,
-                        help='Indicate whether you want to check the system hardening methods (False by default).')
-    parser.add_argument('-c', '--csv_format', type=str_to_bool, nargs='?', default=False,
+                             'attention.', action='store_true')
+    parser.add_argument('-s', '--system', default=False,
+                        help='Indicate whether you want to check the system hardening methods (False by default).',
+                        action='store_true')
+    parser.add_argument('-c', '--csv_format', default=False,
                         help='Specify whether you want to save the results in a csv file; by default, the results are '
-                             'output to the screen.')
+                             'output to the screen.', action='store_true')
     return parser.parse_args()
 
 
