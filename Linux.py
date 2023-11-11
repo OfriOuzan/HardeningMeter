@@ -10,6 +10,44 @@ FORTIFY_PATTERN_GLIBC = r"__\w+_chk@@GLIBC"
 ASLR = {0: 'Disabled', 1: 'Partial Enabled'}
 
 
+def check_conf():
+    ibt = 'X'
+    kaslr_base = 'X'
+    kaslr_memory = 'X'
+    kaslr_kstack = 'X'
+    kaslr_kstack_default = 'X'
+    kernel_info = Modules.run_command('uname -r').split('\n')[0]
+    file = f'/boot/config-{kernel_info}'
+    lines = Modules.read_file(file).split('\n')
+    for line in lines:
+        if line.startswith('CONFIG_X86_KERNEL_IBT=y'):
+            ibt = 'V'
+        if line.startswith('CONFIG_RANDOMIZE_BASE=y'):
+            kaslr_base = 'V'
+        if line.startswith('CONFIG_RANDOMIZE_MEMORY=y'):
+            kaslr_memory = 'V'
+        if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET=y'):
+            kaslr_kstack = 'V'
+        if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT=y'):
+            kaslr_kstack_default = 'V'
+    return [kaslr_base, kaslr_memory, kaslr_kstack, kaslr_kstack_default, ibt]
+
+
+def check_cpuinfo():
+    smep = 'X'
+    smap ='X'
+    pti = 'X'
+    lines = Modules.read_file('/proc/cpuinfo').split('\n')
+    for line in lines:
+        if 'smep' in line:
+            smep = 'V'
+        if 'smap' in line:
+            smap = 'V'
+        if 'pti' in line:
+            pti = 'V'
+    return [smep, smap, pti]
+
+
 def check_nx():
     """This function returns the NX status if exists."""
     dmesg = 'dmesg'
@@ -269,8 +307,9 @@ def hardening_checks(all_files, external, show_missing, system, csv_format):
                         if external:
                             line += [asan]
                 lines.append(line)
-        Modules.write_results(lines, show_missing, 'binaries', csv_format)
+        Modules.write_results(lines, show_missing, 'Binaries', csv_format)
     if system:
-        lines = [['ASLR', 'NX'], [check_aslr(), check_nx()]]
-        Modules.write_results(lines, show_missing, 'system', csv_format)
-
+        smep, smap, pti = check_cpuinfo()
+        lines = [['NX', 'ASLR', 'SMEP', 'SMAP', 'KASLR BASE', 'KASLR MEMORY', 'KASLR KSTACK', 'KASLR KSTACK DEFAULT',
+                  'IBT', 'PTI'], [check_nx(), check_aslr(), smep, smap] + check_conf() + [pti]]
+        Modules.write_results(lines, show_missing, 'System', csv_format)
