@@ -12,6 +12,13 @@ Hardening Meter supports all Linux distributions and machine-readable output, th
 format or be exported to a csv.
 (For more information see Documentation.md file)
 
+# Execute Scanning Example
+Scan the '/usr/bin' directory, the '/usr/sbin/newusers' file, the system and export the results to a csv file.
+```
+python3 HardeningMeter.py -f /bin/cp -s
+```
+![HardeningMeterOutput](https://github.com/OfriOuzan/HardeningMeter/assets/104366208/45ae211d-999d-4f08-a0dc-59cb0d488c63)
+
 # Installation Requirements
 
 Before installing HardeningMeter, make sure your machine has the following:
@@ -56,14 +63,6 @@ Specify if you want to scan the system hardening methods.
 ## -c --csv_format'
 
 Specify if you want to save the results to csv file (results are printed as a table to stdout by default).
-
-
-# Execute Scanning Example
-Scan the '/usr/bin' directory, the '/usr/sbin/newusers' file, the system and export the results to a csv file.
-```
-python3 HardeningMeter.py -f /bin/cp -s
-```
-![HardeningMeterOutput](https://github.com/OfriOuzan/HardeningMeter/assets/104366208/45ae211d-999d-4f08-a0dc-59cb0d488c63)
 
 
 # Results
