@@ -70,3 +70,6 @@ HardeningMeter’s results are printed as a table and consisted of 3 different s
 - (X) - This state indicates that the binary hardening mechanism is disabled.
 - (V) - This state indicates that the binary hardening mechanism is enabled.
 - (-) - This state indicates that the binary hardening mechanism is not relevant in this particular case.
+
+# Notes
+When the default language on Linux is not English make sure to add "LC_ALL=C" before calling the script.
