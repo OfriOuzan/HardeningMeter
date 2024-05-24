@@ -33,7 +33,7 @@ Before installing HardeningMeter, make sure your machine has the following:
 
 The very latest developments can be obtained via git.
 
-Clone or download the project files (no compilation nor installation is required)
+Clone or download the project files (no compilation nor installation is required).
 ```
 git clone https://github.com/OfriOuzan/HardeningMeter
 ```
