@@ -18,18 +18,26 @@ def check_conf():
     kaslr_kstack_default = 'X'
     kernel_info = Modules.run_command('uname -r').split('\n')[0]
     file = f'/boot/config-{kernel_info}'
-    lines = Modules.read_file(file).split('\n')
-    for line in lines:
-        if line.startswith('CONFIG_X86_KERNEL_IBT=y'):
-            ibt = 'V'
-        if line.startswith('CONFIG_RANDOMIZE_BASE=y'):
-            kaslr_base = 'V'
-        if line.startswith('CONFIG_RANDOMIZE_MEMORY=y'):
-            kaslr_memory = 'V'
-        if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET=y'):
-            kaslr_kstack = 'V'
-        if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT=y'):
-            kaslr_kstack_default = 'V'
+    lines = Modules.read_file(file)
+    if not lines:
+        ibt = '-'
+        kaslr_base = '-'
+        kaslr_memory = '-'
+        kaslr_kstack = '-'
+        kaslr_kstack_default = '-'
+    else:
+        lines = lines.split('\n')
+        for line in lines:
+            if line.startswith('CONFIG_X86_KERNEL_IBT=y'):
+                ibt = 'V'
+            if line.startswith('CONFIG_RANDOMIZE_BASE=y'):
+                kaslr_base = 'V'
+            if line.startswith('CONFIG_RANDOMIZE_MEMORY=y'):
+                kaslr_memory = 'V'
+            if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET=y'):
+                kaslr_kstack = 'V'
+            if line.startswith('CONFIG_RANDOMIZE_KSTACK_OFFSET_DEFAULT=y'):
+                kaslr_kstack_default = 'V'
     return [kaslr_base, kaslr_memory, kaslr_kstack, kaslr_kstack_default, ibt]
 
 
