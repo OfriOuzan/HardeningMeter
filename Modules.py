@@ -9,9 +9,28 @@ OUTPUT = 'output'
 
 def run_command(command):
     """This function run commands and returns the stdout."""
-    shlex_command = shlex.split(command)
-    command_output = subprocess.run(shlex_command, capture_output=True, text=True)
-    return command_output.stdout
+     shlex_command = shlex.split(command)
+    try:
+        # Run the command and capture the output in binary mode
+        result = subprocess.run(shlex_command, capture_output=True)
+        stdout = result.stdout
+        stderr = result.stderr
+
+        # Attempt to decode the output using 'utf-8', fallback to 'latin-1' if necessary
+        try:
+            stdout = stdout.decode('utf-8')
+        except UnicodeDecodeError:
+            stdout = stdout.decode('latin-1')
+
+        try:
+            stderr = stderr.decode('utf-8')
+        except UnicodeDecodeError:
+            stderr = stderr.decode('latin-1')
+
+        return stdout
+    except Exception as e:
+        print(f"Error executing command '{command}': {e}")
+        return None
 
 
 def read_file(path):
