@@ -9,7 +9,7 @@ OUTPUT = 'output'
 
 def run_command(command):
     """This function run commands and returns the stdout."""
-     shlex_command = shlex.split(command)
+    shlex_command = shlex.split(command)
     try:
         # Run the command and capture the output in binary mode
         result = subprocess.run(shlex_command, capture_output=True)
