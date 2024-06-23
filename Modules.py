@@ -59,7 +59,7 @@ def count_of_x(sublist):
 
 def write_results(lines, show_missing, file_name, csv_format):
     """This function writes the results according to the user's request."""
-    if 'Linux Binary' in file_name and show_missing:
+    if 'Binaries' in file_name and show_missing:
         header = [lines[0]]
         l_sorted = sorted(lines[1:], key=count_of_x, reverse=True)
         missing_lines = [sublist for sublist in l_sorted if any('X' in value for value in sublist[2:])]
