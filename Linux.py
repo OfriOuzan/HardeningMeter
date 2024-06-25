@@ -284,12 +284,12 @@ def hardening_checks(all_files, external, show_missing, system, csv_format):
         lines = [header]
         for file in files:
             elf_type = elf_file_type(file)
+            canary, fortify, asan = relocation_section(file, elf_type)
             if elf_type:
                 if check_go(file):
                     elf_type = f'{elf_type} (Go)'
                 if elf_type == REL:
                     line = [file, elf_type, '-', '-', '-', '-']
-                    canary, fortify, asan = relocation_section(file, elf_type)
                     line += [canary, fortify]
                     line += notes_section(file)
                     if external:
@@ -299,17 +299,16 @@ def hardening_checks(all_files, external, show_missing, system, csv_format):
                         elf_type = f'Static {elf_type}'
                         line = [file, elf_type, '-']
                         line += program_header(file)
-                        line += ['-', '-', '-']
+                        line += ['-', canary, fortify]
                         line += notes_section(file)
                         if external:
-                            line += ['-']
+                            line += [asan]
                     else:
                         elf_type = f'Dynamic {elf_type}'
                         line = [file, elf_type]
                         line += [check_position_independent(elf_type)]
                         line += program_header(file)
                         line += dynamic_section(file)
-                        canary, fortify, asan = relocation_section(file, elf_type)
                         line += [canary, fortify]
                         line += notes_section(file)
                         if external:
