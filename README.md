@@ -2,6 +2,12 @@
 
 Copyright (c) OfriOuzan (B4MB1)
 
+Want to read more about the security mechanisms?
+
+[Binary files security mechanisms](https://medium.com/@ofriouzan/part-2-compiler-level-security-mechanisms-gcc-d01246b8d157)
+
+[System security mechanisms](https://medium.com/@ofriouzan/part-3-kernel-level-security-mechanisms-097e8b8ecefa)
+
 # Description
 HardeningMeter is an open-source Python tool carefully designed to comprehensively assess the security hardening of 
 binaries and systems. Its robust capabilities include thorough checks of various binary exploitation protection 
