@@ -297,7 +297,7 @@ def hardening_checks(all_files, external, show_missing, system, csv_format):
                 else:
                     if check_static(file):
                         elf_type = f'Static {elf_type}'
-                        line = [file, elf_type, '-']
+                        line = [file, elf_type, 'X']
                         line += program_header(file)
                         line += ['-', canary, fortify]
                         line += notes_section(file)
